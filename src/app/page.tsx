@@ -1,5 +1,164 @@
+'use client'
 import Image from 'next/image'
+import React, { useContext, createContext, useState } from 'react';
+import { v4 } from 'uuid';
+import { BrowserRouter as Router, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import UndoIcon from '@material-ui/icons/Undo';
+type Habit =[ string, string, string, string];
+type HabitDictionary = {
+  [key: string]: Habit;
+}
+type HabitFormulaData = {
+  data: Habit[];
+  currentWhen: string;
+  currentInstead: string;
+  currentWill: string;
+  currentId: string;
+  add: (item?:Habit) => void;
+  remove: (id:string) => void;
+  get: (id:string) => Habit;
+  setCurrentWhen: (id:string) => void;
+  setCurrentInstead: (id:string) => void;
+  setCurrentWill: (id:string) => void;
+  setCurrent: (id?:string) => void;
+  
+}
+type WorkingIdContextType = [string, (id:string) => void];
+const HabitFormulasContext = createContext({} as HabitFormulaData);
+const WorkingIdContext = createContext([] as unknown as WorkingIdContextType);
+const CohortForm = () => {
+  let [searchParams, setSearchParams] = useSearchParams();
+  const r = searchParams.get('r');
+  const [value, setValue] = useState(r || '');
 
+  return (
+    <form  onSubmit={(e) => setSearchParams({r: value})}>
+      <input className='text-center border w-5/6 p-2  border-gray-600 placeholder-gray-600 text-lg' placeholder='Enter Cohort Name' type="text" name="r" onChange={(e) => setValue(e.target.value)} />
+      <input type="submit" value="Submit" className='w-1/6 text-lg border  p-2 bg-blue-300 hover:bg-blue-500 hover:text-white'/>
+    </form>
+  )
+}
+const HabitTable = () => { 
+  const {data, setCurrent,remove, currentId} = useContext(HabitFormulasContext);
+  const [habitId, setHabitId] = useContext(WorkingIdContext);
+  return (
+    <table className='w-full'>
+      <thead>
+        <tr>
+          <th className='w-[30%] text-lg p-2 my-2'>When</th>
+          <th className='w-[30%] text-lg p-2 my-2'>Instead of</th>
+          <th className='w-[30%] text-lg p-2 my-2'>I will</th>
+          <th className='w-[10%] text-lg p-2 my-2'></th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((item) => {   
+          return (
+            <tr key={item[3]} className={item[3]===currentId ? 'bg-slate-200' :''}>
+              <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>When </span>{item[0]}</td>
+              <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>Instead </span>Instead of {item[1]}</td>
+              <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>I will </span>I will {item[2]}</td>
+              <td className='text-lg p-2 my-2 align-top'>
+                {item[3]!==currentId ?
+                  <>
+                    <EditIcon className='cursor-pointer' onClick={(e) => setCurrent(item[3])} /> 
+                    <DeleteIcon className='cursor-pointer' onClick={(e) => remove(item[3])} /> 
+                  </>
+                  : 
+                    <UndoIcon className='cursor-pointer' onClick={(e) => setCurrent(v4())} /> 
+                 }
+                </td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  )
+}
+const HabitForm = () => {
+  const {data, setCurrent, remove, currentInstead, currentWhen, currentWill, setCurrentInstead, setCurrentWhen, setCurrentWill, add, get} = useContext(HabitFormulasContext);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const submit = (e:React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    add();
+    setCurrent();
+    inputRef.current?.focus();
+  }  
+  return (
+    <form className='flex flex-wrap' onSubmit={submit}>
+    <div className='w-1/6 text-lg p-2 my-2'>When</div>
+    <input ref={inputRef} className='border my-2 w-5/6 p-2  border-gray-600 placeholder-gray-600 text-lg' placeholder='I start my 1 on 1' type="text" name="when" value={currentWhen} onChange={(e) => setCurrentWhen(e.target.value)} />
+    <div className='w-1/6 text-lg p-2 my-2'>Instead of</div>
+    <input className='border my-2 w-5/6 p-2  border-gray-600 placeholder-gray-600 text-lg' placeholder='ask how my report is doing' type="text" name="instead" value={currentInstead} onChange={(e) => setCurrentInstead(e.target.value)} />
+    <div className='w-1/6 text-lg p-2 my-2'>I will</div>
+    <input className='border my-2 w-5/6 p-2  border-gray-600 placeholder-gray-600 text-lg' placeholder='ask what is on your mind' type="text" name="will" value={currentWill} onChange={(e) => setCurrentWill(e.target.value)} />
+    <input type="submit" value="Submit" className='w-full text-lg border  p-2 bg-blue-300 hover:bg-blue-500 hover:text-white'/>
+
+    </form>
+
+  )
+}
+const Inner = () => {
+  let [searchParams, setSearchParams] = useSearchParams();
+  let [data, setData] = useState([] as Habit[]);
+  let [currentWhen, setCurrentWhen] = useState('');
+  let [currentInstead, setCurrentInstead] = useState('');
+  let [currentWill, setCurrentWill] = useState('');
+  let [currentId, setCurrentId] = useState(v4());
+  let [habitId, setHabitId] = useState('');
+  const r = searchParams.get('r');
+  if (!r) {
+    return <CohortForm />;
+  } 
+  const add = (itemIn?:Habit) => {
+    const item = itemIn || [currentWhen, currentInstead, currentWill, currentId];
+    setData(Object.values(
+      { 
+        ...data.reduce((acc, cur) => {acc[cur[3]] = cur; return acc}, {} as HabitDictionary), 
+        [item[3]]: item
+      }));
+  }
+  const get = (id:string) => {
+    return data.find((item) => item[3] === id) || ['','','', id];
+  }
+  const setId = (id:string) => {  
+    setHabitId(id);
+  }
+  const setCurrentFromId = (id?:string) => {
+    const [when, instead, will] = id ? get(id) : ['','',''];
+    setCurrentWhen(when);
+    setCurrentInstead(instead);
+    setCurrentWill(will);
+    setCurrentId(id || v4());
+  }
+  const remove = (id:string) => {
+    setData(data.filter((item) => item[3] !== id));
+  }
+  return (
+    <div>
+      <HabitFormulasContext.Provider value={{data ,currentWhen, remove, currentInstead, currentWill, currentId, add, get,setCurrentWhen, setCurrentInstead, setCurrentWill, setCurrent:setCurrentFromId}}>
+        <WorkingIdContext.Provider value={[habitId, setId]}>
+        <HabitForm />
+        <HabitTable />
+        </WorkingIdContext.Provider>
+      </HabitFormulasContext.Provider>
+    </div>
+  );
+
+};
+const Home = () => {
+  return (
+    <Router>
+      <div className="container max-w-2xl mx-auto">
+          <Inner />
+        </div>
+    </Router>
+  );
+};
+export default Home;
+/*
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -111,3 +270,4 @@ export default function Home() {
     </main>
   )
 }
+*/
