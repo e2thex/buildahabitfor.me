@@ -1,11 +1,12 @@
 'use client'
 import Image from 'next/image'
-import React, { useContext, createContext, useState } from 'react';
+import React, { Suspense, useContext, createContext, useState } from 'react';
 import { v4 } from 'uuid';
 import { BrowserRouter as Router, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UndoIcon from '@mui/icons-material/Undo';
+import { NoSsr } from '@mui/base';
 type Habit =[ string, string, string, string];
 type HabitDictionary = {
   [key: string]: Habit;
@@ -138,6 +139,7 @@ const Inner = () => {
   }
   return (
     <div>
+
       <HabitFormulasContext.Provider value={{data ,currentWhen, remove, currentInstead, currentWill, currentId, add, get,setCurrentWhen, setCurrentInstead, setCurrentWill, setCurrent:setCurrentFromId}}>
         <WorkingIdContext.Provider value={[habitId, setId]}>
         <HabitForm />
@@ -150,11 +152,15 @@ const Inner = () => {
 };
 const Home = () => {
   return (
+        <NoSsr>
+
+
     <Router>
       <div className="container max-w-2xl mx-auto">
           <Inner />
         </div>
     </Router>
+        </NoSsr>
   );
 };
 export default Home;
