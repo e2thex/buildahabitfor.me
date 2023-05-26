@@ -3,9 +3,9 @@ import Image from 'next/image'
 import React, { useContext, createContext, useState } from 'react';
 import { v4 } from 'uuid';
 import { BrowserRouter as Router, useLocation, useParams, useSearchParams } from 'react-router-dom';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import UndoIcon from '@material-ui/icons/Undo';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import UndoIcon from '@mui/icons-material/Undo';
 type Habit =[ string, string, string, string];
 type HabitDictionary = {
   [key: string]: Habit;
