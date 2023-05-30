@@ -15,7 +15,8 @@ const HabitForm = () => {
     }  
     return (
 			<section>
-				<h2 className='text-5xl text-center m-10'>Habit Formula Form for {cohort}</h2>
+				<h1 className='text-5xl text-center m-5'>Build a Habit for Me!</h1>
+				<h2 className='text-2xl text-center m-5'>{cohort}</h2>
 				<div className='text-center mb-5 italic'>
 					<p>Use this form to add a new habit formula or edit an existing one.</p>
 					<p>The formula is based on one presented in the book The Coaching Habit.</p>

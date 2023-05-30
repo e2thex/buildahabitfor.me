@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react';
-import { HabitData } from './types';
 import HabitContext from './HabitContext';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
