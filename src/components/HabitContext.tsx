@@ -15,6 +15,9 @@ const useHabitContextControler = () => {
   let [currentWill, setCurrentWill] = useState('');
   let [currentId, setCurrentId] = useState(v4());
   let [habitId, setHabitId] = useState('');
+  const get = (id:string) =>{
+      return data.find((item) => item[3] === id) || ['','','', id];
+  };
   const controller = {
     data,
     currentWhen,
@@ -32,9 +35,7 @@ const useHabitContextControler = () => {
           [item[3]]: item
         }));
     },
-    get: (id:string) => {
-      return data.find((item) => item[3] === id) || ['','','', id];
-    },
+    get,
     setId: (id:string) => {  
       setHabitId(id);
     },
