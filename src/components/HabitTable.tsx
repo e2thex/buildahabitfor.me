@@ -34,17 +34,18 @@ const HabitTable = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => {   
+          {(data || []).map((item) => {
+            const {id, when, insteadOf, will} = item;   
             return (
-              <tr key={item[3]} className={item[3]===currentId ? 'bg-slate-200' :''}>
-                <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>When </span>{item[0]}</td>
-                <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>Instead </span>Instead of {item[1]}</td>
-                <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>I will </span>I will {item[2]}</td>
+              <tr key={id} className={id===currentId ? 'bg-slate-200' :''}>
+                <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>When </span>{when}</td>
+                <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>Instead </span>Instead of {insteadOf}</td>
+                <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>I will </span>I will {will}</td>
                 <td className='text-lg p-2 my-2 align-top'>
-                  {item[3]!==currentId ?
+                  {id!==currentId ?
                     <>
-                      <EditIcon className='hover:text-blue-300 cursor-pointer' onClick={(e) => setCurrent(item[3])} /> 
-                      <DeleteIcon className='hover:text-blue-300 cursor-pointer' onClick={(e) => remove(item[3])} /> 
+                      <EditIcon className='hover:text-blue-300 cursor-pointer' onClick={(e) => setCurrent(id)} /> 
+                      <DeleteIcon className='hover:text-blue-300 cursor-pointer' onClick={(e) => remove(item)} /> 
                     </>
                     : 
                       <UndoIcon className='hover:text-blue-300 cursor-pointer' onClick={(e) => setCurrent(v4())} /> 

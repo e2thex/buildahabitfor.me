@@ -5,21 +5,27 @@ import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { Habit } from './types';
 import { HabitDictionary } from './types';
+import { useMutation, useQuery } from '../../convex/_generated/react';
 
 const HabitContext = createContext({} as HabitData);
 
-const useHabitContextControler = () => {
+const useHabitContextControler = (cohort:string) => {
+  const tasks = useQuery("getHabits");
+  const addTask = useMutation("addHabit");
+  const delHabit = useMutation("delHabit");
+  console.log(tasks);
   let [data, setData] = useState([] as Habit[]);
   let [currentWhen, setCurrentWhen] = useState('');
   let [currentInstead, setCurrentInstead] = useState('');
   let [currentWill, setCurrentWill] = useState('');
   let [currentId, setCurrentId] = useState(v4());
+  let [current_id, setCurrent_id] = useState('' as string);
   let [habitId, setHabitId] = useState('');
   const get = (id:string) =>{
-      return data.find((item) => item[3] === id) || ['','','', id];
+      return tasks.find((item) => item.id === id) || {id};
   };
   const controller = {
-    data,
+    data:tasks,
     currentWhen,
     currentInstead,
     currentWill,
@@ -29,25 +35,33 @@ const useHabitContextControler = () => {
     setCurrentWill,
     add: (itemIn?:Habit) => {
       const item = itemIn || [currentWhen, currentInstead, currentWill, currentId];
+      console.log({id:currentId, when:currentWhen, insteadOf:currentInstead, will:currentWill});
+      addTask({id:currentId, when:currentWhen, insteadOf:currentInstead, will:currentWill, cohort, _id:current_id});
+      /*
       setData(Object.values(
         { 
           ...data.reduce((acc, cur) => {acc[cur[3]] = cur; return acc}, {} as HabitDictionary), 
           [item[3]]: item
         }));
+        */
     },
     get,
     setId: (id:string) => {  
       setHabitId(id);
     },
     setCurrent: (id?:string) => {
-      const [when, instead, will] = id ? get(id) : ['','',''];
+      console.log({id})
+      const {when, insteadOf, will, _id} = typeof id !=='undefined' ? get(id) : {when:'', insteadOf:'', will:'', _id:null}
+      console.log({when, insteadOf, will, _id});
       setCurrentWhen(when);
-      setCurrentInstead(instead);
+      setCurrentInstead(insteadOf);
       setCurrentWill(will);
       setCurrentId(id || v4());
+      setCurrent_id((_id));
     },
-    remove: (id:string) => {
-      setData(data.filter((item) => item[3] !== id));
+    remove: (record:object) => {
+      delHabit(record);
+      //setData(data.filter((item) => item[3] !== id));
     }
   }
   return controller as HabitData;

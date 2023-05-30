@@ -12,10 +12,11 @@ import HabitContext, { useHabitContextControler } from '@/components/HabitContex
 import CohortForm from '@/components/CohortForm';
 import HabitTable from '@/components/HabitTable';
 import HabitForm from '@/components/HabitForm';
+import ConvexClientProvider from './ConvexClientProvider';
 const Inner = () => {
   let [searchParams] = useSearchParams();
   const r = searchParams.get('r');
-  const controller = useHabitContextControler();
+  const controller = useHabitContextControler(r);
   if (!r) {
     return <CohortForm />;
   } 
@@ -33,9 +34,11 @@ const Home = () => {
   return (
         <NoSsr>
           <Router>
-            <div className="container max-w-2xl mx-auto">
+            <ConvexClientProvider>
+              <div className="container max-w-2xl mx-auto">
                 <Inner />
               </div>
+            </ConvexClientProvider>
           </Router>
         </NoSsr>
   );
