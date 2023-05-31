@@ -43,7 +43,7 @@ const useConvexHabitContextController = (cohort:string) => {
   let [currentInstead, setCurrentInstead] = useState('');
   let [currentWill, setCurrentWill] = useState('');
   let [currentId, setCurrentId] = useState(v4());
-  let [currentCreator, setCurrentCreator] = useState(cohort);
+  let [currentCreator, setCurrentCreator] = useState(localStorage.getItem('creator') || '');
   let [current_id, setCurrent_id] = useState('' as string);
   const get = (id:string) =>{
       return (tasks || []).find((item) => item.id === id) ||  {when:'', insteadOf:'', will:'', id, creator:'', _id:null };
