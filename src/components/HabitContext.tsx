@@ -10,7 +10,7 @@ import { useMutation, useQuery } from '../../convex/_generated/react';
 const HabitContext = createContext({} as HabitData);
 
 const useHabitContextControler = (cohort:string) => {
-  const tasks = useQuery("getHabits") as Habit[];
+  const tasks = useQuery("getHabits", {cohort}) as unknown as Habit[];
   const addTask = useMutation("addHabit");
   const delHabit = useMutation("delHabit");
   console.log(tasks);

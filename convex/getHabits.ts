@@ -1,5 +1,6 @@
 import { query } from "./_generated/server";
-
-export default query(async ({ db }, { cohort }) => {
-  return await db.query("habits").filter(q => q.eq(q.field("cohort"), cohort)).collect();
+type Props = { cohort: string };
+export default query(async ({ db }, props:Props) => {
+  const { cohort } = props;
+  return await db.query("habits").filter(q => q.eq(q.field("cohort"), cohort as string)).collect();
 });
