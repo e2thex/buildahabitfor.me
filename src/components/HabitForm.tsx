@@ -28,11 +28,11 @@ const HabitForm = () => {
 					<p>The formula is based on one presented in the book The Coaching Habit.</p>
 				</div>
 				<form className='flex flex-wrap' onSubmit={submit}>
-					<div className='w-1/6 text-lg p-2 my-2'>Creator</div>
-					<input className='border my-2 w-4/6 p-2  border-gray-600 placeholder-gray-600 text-lg' placeholder='This is your name' type="text" name="when" value={currentCreator} onChange={(e) => setCurrentCreatorIntersept(e.target.value)} />
 					<div className="w-1/6">
 					  <DatePicker className='hover:border my-2 w-full p-2  border-gray-600 placeholder-gray-600 text-lg' selected={currentDate} onChange={(date) => setCurrentDate(date || new Date())} />
 					</div>
+					<div className='w-1/6 text-lg p-2 my-2 order-first'>Creator</div>
+					<input className='border my-2 w-4/6 p-2  border-gray-600 placeholder-gray-600 text-lg order-first' placeholder='This is your name' type="text" name="when" value={currentCreator} onChange={(e) => setCurrentCreatorIntersept(e.target.value)} />
 					<div className='w-1/6 text-lg p-2 my-2'>When</div>
 					<input ref={inputRef} className='border my-2 w-5/6 p-2  border-gray-600 placeholder-gray-600 text-lg' placeholder='I start my 1 on 1' type="text" name="when" value={currentWhen} onChange={(e) => setCurrentWhen(e.target.value)} />
 					<div className='w-1/6 text-lg p-2 my-2'>Instead of</div>
