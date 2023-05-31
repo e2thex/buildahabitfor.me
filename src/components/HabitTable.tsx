@@ -12,7 +12,8 @@ const HabitTable = () => {
     const [copied, setCopied] = useState(false);
     const copy = () => {
       const text = data.map((item) => {
-        return `When ${item[0]}, instead of ${item[1]}, I will ${item[2]}.`;
+        const {when, insteadOf, will} = item;
+        return `When ${when}, instead of ${insteadOf}, I will ${will}.`;
       }).join('\n');
       setCopied(true);
       setTimeout(() => { setCopied(false); }, 2000);

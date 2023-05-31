@@ -1,4 +1,10 @@
-export type Habit =[ string, string, string, string];
+export type Habit = {
+  id: string, 
+  when: string, 
+  insteadOf: string, 
+  will : string,
+  _id?: string
+};
 export type HabitDictionary = {
   [key: string]: Habit;
 }
@@ -9,7 +15,7 @@ export type HabitData = {
   currentWill: string;
   currentId: string;
   add: (item?:Habit) => void;
-  remove: (id:string) => void;
+  remove: (habit:Habit) => void;
   get: (id:string) => Habit;
   setCurrentWhen: (id:string) => void;
   setCurrentInstead: (id:string) => void;

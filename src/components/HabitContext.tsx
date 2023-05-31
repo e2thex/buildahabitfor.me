@@ -10,7 +10,7 @@ import { useMutation, useQuery } from '../../convex/_generated/react';
 const HabitContext = createContext({} as HabitData);
 
 const useHabitContextControler = (cohort:string) => {
-  const tasks = useQuery("getHabits");
+  const tasks = useQuery("getHabits") as Habit[];
   const addTask = useMutation("addHabit");
   const delHabit = useMutation("delHabit");
   console.log(tasks);
@@ -22,7 +22,7 @@ const useHabitContextControler = (cohort:string) => {
   let [current_id, setCurrent_id] = useState('' as string);
   let [habitId, setHabitId] = useState('');
   const get = (id:string) =>{
-      return tasks.find((item) => item.id === id) || {id};
+      return (tasks || []).find((item) => item.id === id) ||  {when:'', insteadOf:'', will:'', id };
   };
   const controller = {
     data:tasks,
@@ -57,9 +57,9 @@ const useHabitContextControler = (cohort:string) => {
       setCurrentInstead(insteadOf);
       setCurrentWill(will);
       setCurrentId(id || v4());
-      setCurrent_id((_id));
+      setCurrent_id((_id || ''));
     },
-    remove: (record:object) => {
+    remove: (record:Habit) => {
       delHabit(record);
       //setData(data.filter((item) => item[3] !== id));
     }
