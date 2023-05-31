@@ -66,10 +66,11 @@ const useConvexHabitContextController = (cohort:string) => {
     setCurrentCreator,
     setCurrentDate,
     add: (itemIn?:Habit) => {
-      const item = itemIn || {when:currentWhen, insteadOf:currentInstead, will:currentWill, id:currentId, creator:currentCreator, date:currentDate} as Habit;
-      console.log({item, a:{...item, date:item.date.toISOString()}});
+      const item = itemIn || {when:currentWhen, insteadOf:currentInstead, will:currentWill, id:currentId, creator:currentCreator, date:currentDate, _id:current_id} as Habit;
+      console.log({item});
+      console.log({item, a:{...item, date:new Date(item.date).toISOString()}});
       
-      addTask({...item, date:item.date.toISOString(), cohort});
+      addTask({...item, date:new Date(item.date).toISOString(), cohort});
     },
     remove: (record:Habit) => {
       delHabit(record);
