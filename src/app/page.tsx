@@ -7,15 +7,15 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UndoIcon from '@mui/icons-material/Undo';
 import { NoSsr } from '@mui/base';
-import { Habit, HabitDictionary, HabitData} from '../components/types';
-import HabitContext, { useHabitContextControler } from '@/components/HabitContext';
+import HabitContext, { useConvexHabitContextController } from '@/components/HabitContext';
 import CohortForm from '@/components/CohortForm';
 import HabitTable from '@/components/HabitTable';
 import HabitForm from '@/components/HabitForm';
+import ConvexClientProvider from './ConvexClientProvider';
 const Inner = () => {
   let [searchParams] = useSearchParams();
   const r = searchParams.get('r');
-  const controller = useHabitContextControler();
+  const controller = useConvexHabitContextController(r || "noCohort");
   if (!r) {
     return <CohortForm />;
   } 
@@ -33,9 +33,11 @@ const Home = () => {
   return (
         <NoSsr>
           <Router>
-            <div className="container max-w-2xl mx-auto">
+            <ConvexClientProvider>
+              <div className="container max-w-2xl mx-auto">
                 <Inner />
               </div>
+            </ConvexClientProvider>
           </Router>
         </NoSsr>
   );
