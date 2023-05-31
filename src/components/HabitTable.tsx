@@ -13,7 +13,7 @@ const HabitTable = () => {
     const copy = () => {
       const text = data.map((item) => {
         const {when, insteadOf, will} = item;
-        return `When ${when}, instead of ${insteadOf}, I will ${will}. (${item.creator})`;
+        return `When ${when}, instead of ${insteadOf}, I will ${will}. (${item.creator} on ${new Date(item.date).toISOString().slice(0, 10)})`;
       }).join('\n');
       setCopied(true);
       setTimeout(() => { setCopied(false); }, 2000);
@@ -37,14 +37,14 @@ const HabitTable = () => {
         </thead>
         <tbody>
           {(data || []).map((item) => {
-            const {id, when, insteadOf, will, creator} = item;   
-            console.log(item);
+            const {id, when, insteadOf, will, creator, date} = item;   
+            const dateValue =  new Date(date).toISOString().slice(0, 10);
             return (
               <tr key={id} className={id===currentId ? 'bg-slate-200' :''}>
                 <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>When </span>{when}</td>
                 <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>Instead </span>Instead of {insteadOf}</td>
                 <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>I will </span>I will {will}</td>
-                <td className='text-lg p-2 my-2 align-top'>{creator}</td>
+                <td className='text-lg p-2 my-2 align-top'>{creator} <span className='text-xs italic'> {dateValue}</span></td>
                 <td className='text-lg p-2 my-2 align-top'>
                   {id!==currentId ?
                     <>

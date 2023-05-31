@@ -2,10 +2,12 @@
 import React, { useContext } from 'react';
 import HabitContext from './HabitContext';
 import { useSearchParams } from 'react-router-dom';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const HabitForm = () => {
 	  const [searchParams] = useSearchParams();
 		const cohort = searchParams.get('r');
-    const {data, setCurrent, remove, currentInstead, currentWhen, currentWill, setCurrentInstead, setCurrentWhen, setCurrentWill, add, get, currentCreator, setCurrentCreator} = useContext(HabitContext);
+    const {data, setCurrent, remove, currentInstead, currentWhen, currentWill, setCurrentInstead, setCurrentWhen, setCurrentWill, add, get, currentCreator, setCurrentCreator, currentDate, setCurrentDate} = useContext(HabitContext);
     const inputRef = React.useRef<HTMLInputElement>(null);
     const submit = (e:React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -26,8 +28,11 @@ const HabitForm = () => {
 					<p>The formula is based on one presented in the book The Coaching Habit.</p>
 				</div>
 				<form className='flex flex-wrap' onSubmit={submit}>
-					<div className='w-1/6 text-lg p-2 my-2'>Creator</div>
-					<input ref={inputRef} className='border my-2 w-5/6 p-2  border-gray-600 placeholder-gray-600 text-lg' placeholder='This is your name' type="text" name="when" value={currentCreator} onChange={(e) => setCurrentCreatorIntersept(e.target.value)} />
+					<div className="w-1/6">
+					  <DatePicker className='hover:border my-2 w-full p-2  border-gray-600 placeholder-gray-600 text-lg' selected={currentDate} onChange={(date) => setCurrentDate(date || new Date())} />
+					</div>
+					<div className='w-1/6 text-lg p-2 my-2 order-first'>Creator</div>
+					<input className='border my-2 w-4/6 p-2  border-gray-600 placeholder-gray-600 text-lg order-first' placeholder='This is your name' type="text" name="when" value={currentCreator} onChange={(e) => setCurrentCreatorIntersept(e.target.value)} />
 					<div className='w-1/6 text-lg p-2 my-2'>When</div>
 					<input ref={inputRef} className='border my-2 w-5/6 p-2  border-gray-600 placeholder-gray-600 text-lg' placeholder='I start my 1 on 1' type="text" name="when" value={currentWhen} onChange={(e) => setCurrentWhen(e.target.value)} />
 					<div className='w-1/6 text-lg p-2 my-2'>Instead of</div>

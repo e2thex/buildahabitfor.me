@@ -1,9 +1,7 @@
 import { Id } from "./_generated/dataModel";
-import { mutation } from "./_generated/server";
-
+import { mutation } from "./_generated/server"
 export default mutation(async ({ db }, record ) => {
     const {_id, ...rest } = record;
-    console.log({_id, rest, record});
     if (_id) {
         const id = _id as Id<"habits">;
         await db.replace(id, rest);
