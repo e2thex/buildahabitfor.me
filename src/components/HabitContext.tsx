@@ -8,6 +8,7 @@ export type Habit = {
   when: string, 
   insteadOf: string, 
   will : string,
+  creator : string,
   _id?: string
 };
 export type HabitDictionary = {
@@ -18,6 +19,7 @@ export type HabitData = {
   currentWhen: string;
   currentInstead: string;
   currentWill: string;
+  currentCreator: string;
   currentId: string;
   add: (item?:Habit) => void;
   remove: (habit:Habit) => void;
@@ -26,6 +28,7 @@ export type HabitData = {
   setCurrentInstead: (id:string) => void;
   setCurrentWill: (id:string) => void;
   setCurrent: (id?:string) => void;
+  setCurrentCreator: (id:string) => void;
   
 }
 const HabitContext = createContext({} as HabitData);
@@ -40,6 +43,7 @@ const useConvexHabitContextController = (cohort:string) => {
   let [currentInstead, setCurrentInstead] = useState('');
   let [currentWill, setCurrentWill] = useState('');
   let [currentId, setCurrentId] = useState(v4());
+  let [currentCreator, setCurrentCreator] = useState(cohort);
   let [current_id, setCurrent_id] = useState('' as string);
   const get = (id:string) =>{
       return (tasks || []).find((item) => item.id === id) ||  {when:'', insteadOf:'', will:'', id };
@@ -50,13 +54,14 @@ const useConvexHabitContextController = (cohort:string) => {
     currentInstead,
     currentWill,
     currentId,
+    currentCreator,
     setCurrentWhen,
     setCurrentInstead,
     setCurrentWill,
+    setCurrentCreator,
     add: (itemIn?:Habit) => {
-      const item = itemIn || [currentWhen, currentInstead, currentWill, currentId];
-      console.log({id:currentId, when:currentWhen, insteadOf:currentInstead, will:currentWill});
-      addTask({id:currentId, when:currentWhen, insteadOf:currentInstead, will:currentWill, cohort, _id:current_id});
+      const item = itemIn || [currentWhen, currentInstead, currentWill, currentId, currentCreator];
+      addTask({id:currentId, when:currentWhen, insteadOf:currentInstead, will:currentWill, cohort, _id:current_id, creator:currentCreator});
     },
     remove: (record:Habit) => {
       delHabit(record);
@@ -64,13 +69,15 @@ const useConvexHabitContextController = (cohort:string) => {
     get,
     setCurrent: (id?:string) => {
       console.log({id})
-      const {when, insteadOf, will, _id} = typeof id !=='undefined' ? get(id) : {when:'', insteadOf:'', will:'', _id:null}
+      const creatorDefault = localStorage.getItem('creator') || '';
+      const {when, insteadOf, will, _id, creator} = typeof id !=='undefined' ? get(id) : {when:'', insteadOf:'', will:'', _id:null, creator:creatorDefault}
       console.log({when, insteadOf, will, _id});
       setCurrentWhen(when);
       setCurrentInstead(insteadOf);
       setCurrentWill(will);
       setCurrentId(id || v4());
       setCurrent_id((_id || ''));
+      setCurrentCreator(creator);
     },
   }
   return controller as HabitData;
