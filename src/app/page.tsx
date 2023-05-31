@@ -15,8 +15,8 @@ import HabitForm from '@/components/HabitForm';
 import ConvexClientProvider from './ConvexClientProvider';
 const Inner = () => {
   let [searchParams] = useSearchParams();
-  const r = searchParams.get('r')|| "noCohort";
-  const controller = useHabitContextControler(r);
+  const r = searchParams.get('r');
+  const controller = useHabitContextControler(r || "noCohort");
   if (!r) {
     return <CohortForm />;
   } 
