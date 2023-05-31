@@ -9,6 +9,7 @@ export type Habit = {
   insteadOf: string, 
   will : string,
   creator : string,
+  date: Date,
   _id?: string
 };
 export type HabitDictionary = {
@@ -20,6 +21,7 @@ export type HabitData = {
   currentInstead: string;
   currentWill: string;
   currentCreator: string;
+  currentDate: Date;
   currentId: string;
   add: (item?:Habit) => void;
   remove: (habit:Habit) => void;
@@ -28,7 +30,8 @@ export type HabitData = {
   setCurrentInstead: (id:string) => void;
   setCurrentWill: (id:string) => void;
   setCurrent: (id?:string) => void;
-  setCurrentCreator: (id:string) => void;
+  setCurrentCreator: (creator:string) => void;
+  setCurrentDate: (date:Date) => void;
   
 }
 const HabitContext = createContext({} as HabitData);
@@ -44,9 +47,10 @@ const useConvexHabitContextController = (cohort:string) => {
   let [currentWill, setCurrentWill] = useState('');
   let [currentId, setCurrentId] = useState(v4());
   let [currentCreator, setCurrentCreator] = useState(localStorage.getItem('creator') || '');
+  let [currentDate, setCurrentDate] = useState(new Date());
   let [current_id, setCurrent_id] = useState('' as string);
   const get = (id:string) =>{
-      return (tasks || []).find((item) => item.id === id) ||  {when:'', insteadOf:'', will:'', id, creator:'', _id:null };
+      return (tasks || []).find((item) => item.id === id) ||  {when:'', insteadOf:'', will:'', id, creator:localStorage.getItem('creator')|| '', _id:null, date:new Date() };
   };
   const controller = {
     data:tasks,
@@ -55,13 +59,17 @@ const useConvexHabitContextController = (cohort:string) => {
     currentWill,
     currentId,
     currentCreator,
+    currentDate,
     setCurrentWhen,
     setCurrentInstead,
     setCurrentWill,
     setCurrentCreator,
+    setCurrentDate,
     add: (itemIn?:Habit) => {
-      const item = itemIn || [currentWhen, currentInstead, currentWill, currentId, currentCreator];
-      addTask({id:currentId, when:currentWhen, insteadOf:currentInstead, will:currentWill, cohort, _id:current_id, creator:currentCreator});
+      const item = itemIn || {when:currentWhen, insteadOf:currentInstead, will:currentWill, id:currentId, creator:currentCreator, date:currentDate} as Habit;
+      console.log({item, a:{...item, date:item.date.toISOString()}});
+      
+      addTask({...item, date:item.date.toISOString(), cohort});
     },
     remove: (record:Habit) => {
       delHabit(record);
@@ -70,7 +78,7 @@ const useConvexHabitContextController = (cohort:string) => {
     setCurrent: (id?:string) => {
       console.log({id})
       const creatorDefault = localStorage.getItem('creator') || '';
-      const {when, insteadOf, will, _id, creator} = typeof id !=='undefined' ? get(id) : {when:'', insteadOf:'', will:'', _id:null, creator:creatorDefault}
+      const {when, insteadOf, will, _id, creator, date} = typeof id !=='undefined' ? get(id) : {when:'', insteadOf:'', will:'', _id:null, creator:creatorDefault, date:new Date()}
       console.log({when, insteadOf, will, _id});
       setCurrentWhen(when);
       setCurrentInstead(insteadOf);
@@ -78,6 +86,7 @@ const useConvexHabitContextController = (cohort:string) => {
       setCurrentId(id || v4());
       setCurrent_id((_id || ''));
       setCurrentCreator(creator);
+      setCurrentDate(date);
     },
   }
   return controller as HabitData;
