@@ -1,2 +1,2 @@
-{"cohort": "Alpha","when": "I am start my one on one","insteadOf": "asking how you are doing","will":" ask what is on your mind","id":"THISISAGUID"}
+{"cohort": "Alpha","when": "I am start my one on one","insteadOf": "asking how you are doing","will":" ask what is on your mind","id":"THISISAGUID", creator:"Bad Erik"}
 {"cohort": "Alpha","when": "Jane says when I was at google","insteadOf": "think she is name droping","will":"evalute the idea on its own merit","id":"THISISAUUID"}
