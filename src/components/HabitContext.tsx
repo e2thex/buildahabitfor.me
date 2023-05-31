@@ -34,7 +34,7 @@ export type HabitData = {
 const HabitContext = createContext({} as HabitData);
 
 const useConvexHabitContextController = (cohort:string) => {
-  const tasks = useQuery("getHabits", {cohort}) as unknown as Habit[];
+  const tasks = useQuery("getHabits", {cohort}) as unknown as (Habit & {_id:any} )[] ;
   const addTask = useMutation("addHabit");
   const delHabit = useMutation("delHabit");
   console.log(tasks);
@@ -46,7 +46,7 @@ const useConvexHabitContextController = (cohort:string) => {
   let [currentCreator, setCurrentCreator] = useState(cohort);
   let [current_id, setCurrent_id] = useState('' as string);
   const get = (id:string) =>{
-      return (tasks || []).find((item) => item.id === id) ||  {when:'', insteadOf:'', will:'', id };
+      return (tasks || []).find((item) => item.id === id) ||  {when:'', insteadOf:'', will:'', id, creator:'', _id:null };
   };
   const controller = {
     data:tasks,
