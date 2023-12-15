@@ -46,11 +46,9 @@ const HabitReward = (props:Props) => {
     }
     return (
       <>
-      <div className='bg-black w-full font-raleway'>
+      <div className='font-raleway'>
         <h1 className='text-6xl text-white py-5'>{author} Habits</h1>
-
-</h2>
-      <HabitList {...{author}} includeDate />
+        <HabitList {...{author}} includeDate />
       </div>
       </>
     )
