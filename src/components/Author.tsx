@@ -14,7 +14,7 @@ import HabitList from './HabitList';
 type Props = {
     author: string
 }
-const HabitReward = (props:Props) => { 
+const Author = (props:Props) => { 
     const {author} = props;
     const {data, setCurrent,remove, currentId} = useContext(HabitContext);
     const items = (data || []).filter(item => item.creator===author);

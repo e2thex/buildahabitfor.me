@@ -14,6 +14,7 @@ import HabitForm from '@/components/HabitForm';
 import ConvexClientProvider from './ConvexClientProvider';
 import HabitReward from '@/components/HabitReward';
 import 'typeface-raleway';
+import Author from '@/components/Author';
 const Inner = () => {
   let [searchParams] = useSearchParams();
   const r = searchParams.get('r');
@@ -22,11 +23,13 @@ const Inner = () => {
     return <CohortForm />;
   } 
   const author = searchParams.get('author');
+  const cert = searchParams.get('cert');
   if(author) {
+    if (cert)
     return (
       <div>
         <HabitContext.Provider value={controller}>
-          <HabitReward author={author} />
+          <Author author={author} />
         </HabitContext.Provider>
       </div>
     )
