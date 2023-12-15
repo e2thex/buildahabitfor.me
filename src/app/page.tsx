@@ -25,11 +25,19 @@ const Inner = () => {
   const author = searchParams.get('author');
   const cert = searchParams.get('cert');
   if(author) {
-    if (cert)
+    if (cert) {
+      return (
+        <div>
+          <HabitContext.Provider value={controller}>
+            <HabitReward author={author} />
+          </HabitContext.Provider>
+        </div>
+      )
+    }
     return (
       <div>
-        <HabitContext.Provider value={controller}>
-          <Author author={author} />
+      <HabitContext.Provider value={controller}>
+        <Author author={author} />
         </HabitContext.Provider>
       </div>
     )
