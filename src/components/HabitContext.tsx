@@ -24,6 +24,7 @@ export type HabitData = {
   currentCreator: string;
   currentDate: Date;
   currentId: string;
+  currentCohort: string;
   add: (item?:Habit) => void;
   remove: (habit:Habit) => void;
   get: (id:string) => Habit;
@@ -61,6 +62,7 @@ const useConvexHabitContextController = (cohort:string) => {
     currentId,
     currentCreator,
     currentDate,
+    currentCohort:cohort,
     setCurrentWhen,
     setCurrentInstead,
     setCurrentWill,

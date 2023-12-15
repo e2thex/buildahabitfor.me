@@ -29,7 +29,7 @@ const HabitList = (props:Props) => {
               <div key={id} className='w-full md:w-1/2 my-5 pr-10'>
                 When {when}, instead of {insteadOf},
                 <span className="font-bold text-p2blue text-xl"> I will {will}</span>
-                {includeDate ? <div className='font-italic text-md text-gray-700'>{dateValue}</div> : <></> }
+                {includeDate ? <div className='font-italic text-md text-gray-500 text-right'>{dateValue}</div> : <></> }
                 </div>
             )
           

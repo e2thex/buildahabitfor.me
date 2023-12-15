@@ -10,7 +10,7 @@ import SortIcon from '@mui/icons-material/Sort';
 
 import { v4 } from 'uuid';
 const HabitTable = () => { 
-    const {data, setCurrent,remove, currentId} = useContext(HabitContext);
+    const {data, setCurrent,remove, currentId, currentCohort} = useContext(HabitContext);
     const [copied, setCopied] = useState(false);
     const [sortBy, setSortBy] = useState('date');
     const [sortDirection, setSortDirection] = useState('asc');
@@ -71,7 +71,7 @@ const HabitTable = () => {
                 <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>When </span>{when}</td>
                 <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>Instead </span>Instead of {insteadOf}</td>
                 <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>I will </span>I will {will}</td>
-                <td className='text-lg p-2 my-2 align-top'><div><a href={`/?`}>{creator}</a></div> <div className='text-xs italic'> {dateValue}</div></td>
+                <td className='text-lg p-2 my-2 align-top'><div><a href={`/?r=${currentCohort}&author=${creator}`}>{creator}</a></div> <div className='text-xs italic'> {dateValue}</div></td>
                 <td className='text-lg p-2 my-2 align-top'>
                   {id!==currentId ?
                     <>
