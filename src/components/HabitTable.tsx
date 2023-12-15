@@ -67,7 +67,7 @@ const HabitTable = () => {
             const {id, when, insteadOf, will, creator, date} = item;   
             const dateValue =  new Date(date).toISOString().slice(0, 10);
             return (
-              <tr key={id} className={id===currentId ? 'bg-slate-200' :''}>
+              <tr key={id} className={id===currentId ? 'bg-slate-700' :''}>
                 <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>When </span>{when}</td>
                 <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>Instead </span>Instead of {insteadOf}</td>
                 <td className='text-lg p-2 my-2 align-top'><span className='font-bold'>I will </span>I will {will}</td>

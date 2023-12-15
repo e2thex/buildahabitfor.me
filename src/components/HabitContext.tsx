@@ -1,7 +1,8 @@
 import { createContext } from 'react';
 import { v4 } from 'uuid';
 import { useState } from 'react';
-import { useMutation, useQuery } from '../../convex/_generated/react';
+// import { useMutation, useQuery } from '../../convex/_generated/react';
+import { useQuery, useMutation } from "convex/react";
 
 export type Habit = {
   id: string, 

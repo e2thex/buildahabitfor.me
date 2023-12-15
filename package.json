@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm convex dev & next dev",
+    "dev": "npx convex dev & next dev",
     "build": "npx convex deploy && next build",
     "start": "next start",
     "lint": "next lint"
@@ -19,7 +19,7 @@
     "@types/react-dom": "18.2.4",
     "@types/uuid": "^9.0.1",
     "autoprefixer": "10.4.14",
-    "convex": "^0.14.1",
+    "convex": "^1.6.3",
     "copy-to-clipboard": "^3.3.3",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
@@ -32,6 +32,7 @@
     "react-dom": "18.2.0",
     "react-router-dom": "^6.11.2",
     "tailwindcss": "3.3.2",
+    "typeface-raleway": "^1.1.13",
     "typescript": "5.0.4",
     "uuid": "^9.0.0"
   }

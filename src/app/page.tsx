@@ -12,6 +12,8 @@ import CohortForm from '@/components/CohortForm';
 import HabitTable from '@/components/HabitTable';
 import HabitForm from '@/components/HabitForm';
 import ConvexClientProvider from './ConvexClientProvider';
+import HabitReward from '@/components/HabitReward';
+import 'typeface-raleway';
 const Inner = () => {
   let [searchParams] = useSearchParams();
   const r = searchParams.get('r');
@@ -19,6 +21,16 @@ const Inner = () => {
   if (!r) {
     return <CohortForm />;
   } 
+  const author = searchParams.get('author');
+  if(author) {
+    return (
+      <div>
+        <HabitContext.Provider value={controller}>
+          <HabitReward author={author} />
+        </HabitContext.Provider>
+      </div>
+    )
+  }
   return (
     <div>
       <HabitContext.Provider value={controller}>
@@ -34,8 +46,10 @@ const Home = () => {
         <NoSsr>
           <Router>
             <ConvexClientProvider>
-              <div className="container max-w-2xl mx-auto">
-                <Inner />
+              <div className='bg-black w-full text-white'>
+                <div className="container max-w-2xl mx-auto">
+                  <Inner />
+                </div>
               </div>
             </ConvexClientProvider>
           </Router>
