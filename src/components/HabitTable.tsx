@@ -30,6 +30,7 @@ const HabitTable = () => {
     }
     const copy = () => {
       const text = data.map((item) => {
+        const {when, insteadOf, will} = item;
         return `When ${when}, instead of ${insteadOf}, I will ${will}. (${item.creator} on ${new Date(item.date).toISOString().slice(0, 10)})`;
       }).join('\n');
       setCopied(true);
