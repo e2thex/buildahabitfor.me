@@ -47,13 +47,12 @@ const HabitReward = (props:Props) => {
     return (
       <>
       <div className='bg-black w-full font-raleway'>
-        <h1 className='text-6xl text-white py-5'>Congratulations {author}!</h1>
+        <h1 className='text-6xl text-white py-5'>{author} Habits</h1>
 
-        <h2 className='text-3xl text-white'>On completing Phase2’s Coaching Great Books Course.
 </h2>
-      <HabitList {...{author}} />
+      <HabitList {...{author}} includeDate />
       </div>
       </>
     )
   }
-export default HabitReward;
+export default Author;
