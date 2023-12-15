@@ -47,7 +47,7 @@ const Author = (props:Props) => {
     return (
       <>
       <div className='font-raleway'>
-        <h1 className='text-6xl text-white py-5'>{author} Habits</h1>
+        <h1 className='text-6xl text-white py-5'>Habits of {author}</h1>
         <HabitList {...{author}} includeDate />
       </div>
       </>
