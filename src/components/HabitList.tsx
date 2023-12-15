@@ -20,7 +20,6 @@ const HabitList = (props:Props) => {
     const items = (data || []).filter(item => item.creator===author).sort((a, b) => a.date > b.date ? 1 :-1);
     return (
       <>
-        <img src='./startquote.png' className='w-[70px] my-5'/>
         <div className="my-6 flex flex-wrap">
 
           {(items || []).map((item) => {
@@ -36,7 +35,6 @@ const HabitList = (props:Props) => {
           
             })}
         </div>
-        <img src='./endquote.png' className='float-right w-[70px] my-5' />
       </>
     )
   }

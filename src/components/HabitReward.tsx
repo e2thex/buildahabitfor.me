@@ -46,13 +46,15 @@ const HabitReward = (props:Props) => {
     }
     return (
       <>
-      <div className='bg-black w-full font-raleway'>
+      <div className='bg-black w-full font-raleway bg-contain bg-right-bottom bg-no-repeat' style={{backgroundImage: "url(/dark_grey_path-06.png)"}}>
         <h1 className='text-6xl text-white py-5'>Congratulations {author}!</h1>
-
-        <h2 className='text-3xl text-white'>On completing Phase2’s Coaching Great Books Course.
-</h2>
-      <HabitList {...{author}} />
+        <h2 className='text-3xl text-white'>On completing Phase2’s Coaching Great Books Course.</h2>
+        <img src='./quotes-06.png' className='w-2/12 my-5'/>
+        <HabitList {...{author}} />
+        <img src='./quotes-06-end.png' className='w-2/12 my-5 ml-auto' />
+        <div className='h-12'></div>
       </div>
+      
       </>
     )
   }
